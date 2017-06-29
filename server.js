@@ -2,7 +2,7 @@ var express = require('express');
 var rp = require('request-promise');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const pythonHost = "http://192.168.0.12:8080";
+const pythonHost = "http://ec2-13-58-179-9.us-east-2.compute.amazonaws.com:8080";
 
 var cache = {}
 
