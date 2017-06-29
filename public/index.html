@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WikiLinks</title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/wiki.css">
+        <style type="text/css">
+            .nav{
+                padding:20px 0px;
+            }
+
+            .wikilinks-card-container{
+                padding: 20px 0px;
+            }
+
+            .card{
+                border-radius: 0px;
+            }
+
+            .card-block img{
+                max-height: 100px;
+                width:auto;
+            }
+
+            .wikipedia-card {
+                max-height: 700px;
+                overflow-y: scroll;
+            }
+            .vertical-align-custom{
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .wikipedia-card .card-img-top{
+                max-width: 100%;
+                max-height: 225px;
+                min-height: 225px;
+                border: none;
+                border-radius: 0;
+            }
+
+            .border-top{
+                border-top: 1px solid rgba(0,0,0,0.125);
+            }
+            .zoom-out{
+                font-size:0.1em;
+            }
+
+            .zoom-out > * {
+                margin: auto;
+            }
+
+            .zoom-out > p {
+                font-size : 4em;
+            }
+
+            .highlight{
+                font-size: 12em;
+                background: rgb(251, 251, 3);
+            }
+
+            .zoom-out > p .highlight{
+                font-size: 4em;
+            }
+
+            .invisible{
+                visibility: hidden;
+            }
+
+            .card-deck{
+                margin-bottom: 20px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <ul class="nav justify-content-center nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">WikiLinks Game</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/thurairaj92/wikiGame">Github page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+            </ul>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Information for Game</h5>
+                </div>
+                <div class="card-block">
+                    <form>
+                        <div class="row">
+                            <div class="form-group col-xs-12 col-md-5 d-inline-block" id="startContainer">
+                                <label for="wikiStart">Start Point</label>
+                                <input type="text" class="form-control" id="wikiStart" aria-describedby="wikiStart" placeholder="Enter wikipedia link or wikipedia title">
+                                <div class="form-control-feedback hidden-xs-up">Sorry, that username's taken. Try another?</div>
+                                <small id="wikiStart" class="form-text text-muted">The point in wikipedia you want to start. Give us, start wikilink or title</small>
+                            </div>
+                            <div class="form-group col-xs-12 col-md-5 d-inline-block" id="endContainer">
+                                <label for="wikiEnd">End Point</label>
+                                <input type="text" class="form-control" id="wikiEnd" aria-describedby="wikiEnd" placeholder="Enter wikipedia link or wikipedia title">
+                                <div class="form-control-feedback hidden-xs-up">Sorry, that username's taken. Try another?</div>
+                                <small id="wikiEnd" class="form-text text-muted">The point in wikipedia you want to end. Give us, end wikilink or title</small>
+                            </div>
+                            <div class="form-group col-xs-12 col-md-2 vertical-align-custom">
+                                <button type="button" onclick="checkLinks()" class="btn btn-primary btn-block">Submit</button>
+                            </div>
+                        </div>   
+                    </form>
+                </div>
+            </div>
+
+            <div id="wiki-result" class="wikilinks-card-container">
+                <div class="row">
+                    <div class="card-container col-xs-12 col-md-6">
+                        <div class="card wikipedia-card ">
+                            <h5 class="card-header"><a href="#">House of Cards (U.S. TV series)</a></h5>
+                            <img class="card-img-top" src="//upload.wikimedia.org/wikipedia/en/thumb/3/3f/House_of_Cards_title_card.png/250px-House_of_Cards_title_card.png" alt="Card image cap">
+                            <div class="card-block">
+                                <p class="card-text">
+                                    <i><b>House of Cards</b></i> is an American <a href="/wiki/Political_drama" title="Political drama">political drama</a> <a href="/wiki/Web_television" title="Web television">web</a> <a href="/wiki/Television_series" class="mw-redirect" title="Television series">television series</a> created by <a href="/wiki/Beau_Willimon" title="Beau Willimon">Beau Willimon</a>. It is an adaptation of the <a href="/wiki/BBC" title="BBC">BBC</a>'s <a href="/wiki/House_of_Cards_(UK_TV_series)" title="House of Cards (UK TV series)">mini-series of the same name</a> and is based on the novel by <a href="/wiki/Michael_Dobbs" title="Michael Dobbs">Michael Dobbs</a>. The thirteen-episode first season premiered on February 1, 2013, on the <a href="/wiki/Streaming_media" title="Streaming media">streaming service</a> <a href="/wiki/Netflix" title="Netflix">Netflix</a>. Thirteen-episode seasons followed on February 14, 2014, February 27, 2015, March 4, 2016, and May 30, 2017. Willimon has stated that plans for the show's future are decided after each season.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2">[2]</a></sup>
+                                </p>
+                            </div>
+                            <div class="card-block border-top">
+                                <p class="card-text">Next word is <i><b>Netflix</b></i> can be found at :</p>
+                                <div class="zoom-out">
+                                    <table><tbody><tr><th colspan="2" class="summary" style="text-align:center;font-size:125%;font-weight:bold;font-style: italic; background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">House of Cards</th></tr><tr><td colspan="2" style="text-align:center"><a href="/wiki/File:House_of_Cards_title_card.png" class="image"><img alt="House of Cards title card.png" src="//upload.wikimedia.org/wikipedia/en/thumb/3/3f/House_of_Cards_title_card.png/250px-House_of_Cards_title_card.png" width="250" height="125" srcset="//upload.wikimedia.org/wikipedia/en/thumb/3/3f/House_of_Cards_title_card.png/375px-House_of_Cards_title_card.png 1.5x, //upload.wikimedia.org/wikipedia/en/3/3f/House_of_Cards_title_card.png 2x" data-file-width="447" data-file-height="223"></a></td></tr><tr><th scope="row">Genre</th><td class="category"><a href="/wiki/Political_drama" title="Political drama">Political drama</a></td></tr><tr><th scope="row">Created by</th><td><a href="/wiki/Beau_Willimon" title="Beau Willimon">Beau Willimon</a></td></tr><tr><th scope="row">Based on</th><td><div class="plainlist"><ul><li><i>House of Cards</i><br>by <a href="/wiki/Michael_Dobbs" title="Michael Dobbs">Michael Dobbs</a></li><li><i><a href="/wiki/House_of_Cards_(UK_TV_series)" title="House of Cards (UK TV series)">House of Cards</a></i><br>by <a href="/wiki/Andrew_Davies_(writer)" title="Andrew Davies (writer)">Andrew Davies</a></li></ul></div></td></tr><tr><th scope="row">Starring</th><td class="attendee"><div class="plainlist"><ul><li><a href="/wiki/Kevin_Spacey" title="Kevin Spacey">Kevin Spacey</a></li><li><a href="/wiki/Robin_Wright" title="Robin Wright">Robin Wright</a></li><li><a href="/wiki/Kate_Mara" title="Kate Mara">Kate Mara</a></li><li><a href="/wiki/Corey_Stoll" title="Corey Stoll">Corey Stoll</a></li><li><a href="/wiki/Michael_Kelly_(American_actor)" title="Michael Kelly (American actor)">Michael Kelly</a></li><li><a href="/wiki/Sakina_Jaffrey" title="Sakina Jaffrey">Sakina Jaffrey</a></li><li><a href="/wiki/Kristen_Connolly" title="Kristen Connolly">Kristen Connolly</a></li><li><a href="/wiki/Sebastian_Arcelus" title="Sebastian Arcelus">Sebastian Arcelus</a></li><li><a href="/wiki/Michel_Gill" title="Michel Gill">Michel Gill</a></li><li><a href="/wiki/Nathan_Darrow" title="Nathan Darrow">Nathan Darrow</a></li><li><a href="/wiki/Rachel_Brosnahan" title="Rachel Brosnahan">Rachel Brosnahan</a></li><li><a href="/wiki/Constance_Zimmer" title="Constance Zimmer">Constance Zimmer</a></li><li><a href="/wiki/Mahershala_Ali" title="Mahershala Ali">Mahershala Ali</a></li><li><a href="/wiki/Elizabeth_Norment" title="Elizabeth Norment">Elizabeth Norment</a></li><li><a href="/wiki/Sandrine_Holt" title="Sandrine Holt">Sandrine Holt</a></li><li><a href="/wiki/Jayne_Atkinson" title="Jayne Atkinson">Jayne Atkinson</a></li><li><a href="/wiki/Molly_Parker" title="Molly Parker">Molly Parker</a></li><li><a href="/wiki/Gerald_McRaney" title="Gerald McRaney">Gerald McRaney</a></li><li><a href="/wiki/Jimmi_Simpson" title="Jimmi Simpson">Jimmi Simpson</a></li><li><a href="/wiki/Elizabeth_Marvel" title="Elizabeth Marvel">Elizabeth Marvel</a></li><li><a href="/wiki/Derek_Cecil" title="Derek Cecil">Derek Cecil</a></li><li><a href="/wiki/Mozhan_Marn%C3%B2" title="Mozhan Marnò">Mozhan Marnò</a></li><li><a href="/wiki/Paul_Sparks" title="Paul Sparks">Paul Sparks</a></li><li><a href="/wiki/Boris_McGiver" title="Boris McGiver">Boris McGiver</a></li><li><a href="/wiki/Neve_Campbell" title="Neve Campbell">Neve Campbell</a></li><li><a href="/wiki/Joel_Kinnaman" title="Joel Kinnaman">Joel Kinnaman</a></li><li><a href="/wiki/Campbell_Scott" title="Campbell Scott">Campbell Scott</a></li><li><a href="/wiki/Patricia_Clarkson" title="Patricia Clarkson">Patricia Clarkson</a></li></ul></div></td></tr><tr><th scope="row">Music by</th><td><a href="/wiki/Jeff_Beal" title="Jeff Beal">Jeff Beal</a></td></tr><tr><th scope="row">Country of origin</th><td>United States</td></tr><tr><th scope="row">Original <span class="nowrap">language(s)</span></th><td>English</td></tr><tr><th scope="row"><abbr title="Number">No.</abbr> of seasons</th><td>5</td></tr><tr><th scope="row"><abbr title="Number">No.</abbr> of episodes</th><td>65 <span class="nowrap">(<a href="/wiki/List_of_House_of_Cards_episodes" title="List of House of Cards episodes">list of episodes</a>)</span></td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">Production</th></tr><tr><th scope="row">Executive <span class="nowrap">producer(s)</span></th><td><div class="plainlist"><ul><li><a href="/wiki/David_Fincher" title="David Fincher">David Fincher</a></li><li>Kevin Spacey</li><li><a href="/wiki/Eric_Roth" title="Eric Roth">Eric Roth</a></li><li><a href="/wiki/Joshua_Donen" title="Joshua Donen">Joshua Donen</a></li><li><a href="/wiki/Dana_Brunetti" title="Dana Brunetti">Dana Brunetti</a></li><li>Andrew Davies</li><li>Michael Dobbs</li><li><a href="/wiki/John_Melfi" title="John Melfi">John Melfi</a></li><li>Beau Willimon</li><li><a href="/wiki/David_Manson_(producer)" title="David Manson (producer)">David Manson</a></li><li><a href="/wiki/John_David_Coles" title="John David Coles">John David Coles</a></li><li>Robin Wright</li></ul></div></td></tr><tr><th scope="row">Location(s)</th><td><a href="/wiki/Baltimore" title="Baltimore">Baltimore</a>, <a href="/wiki/Maryland" title="Maryland">Maryland</a><br><a href="/wiki/Joppa,_Maryland" title="Joppa, Maryland">Joppa, Maryland</a><br>(sound stage)</td></tr><tr><th scope="row">Cinematography</th><td><a href="/wiki/Eigil_Bryld" title="Eigil Bryld">Eigil Bryld</a><br>Tim Ives<br>Igor Martinovic</td></tr><tr><th scope="row">Running time</th><td>43–59 minutes</td></tr><tr><th scope="row">Production <span class="nowrap">company(s)</span></th><td>Media Rights Capital<br><a href="/wiki/Trigger_Street_Productions" title="Trigger Street Productions">Trigger Street Productions</a><br>Wade/Thomas Productions<br>Knight Takes King Productions<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">[1]</a></sup></td></tr><tr><th scope="row">Distributor</th><td><a class="highlight" href="/wiki/Netflix" title="Netflix">Netflix</a> <small>(digital)</small><br><a href="/wiki/Sony_Pictures_Television" title="Sony Pictures Television">Sony Pictures Television</a> <small>(physical)</small></td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">Release</th></tr><tr><th scope="row">Original network</th><td>Netflix</td></tr><tr><th scope="row">Picture format</th><td><a href="/wiki/1080p" title="1080p">1080p</a> (<a href="/wiki/Univisium" title="Univisium">2:1</a> <a href="/wiki/High-definition_television" title="High-definition television">HDTV</a>) <small>(2013)</small><br><a href="/wiki/4K_resolution" title="4K resolution">4K</a> (2:1 <a href="/wiki/Ultra-high-definition_television" title="Ultra-high-definition television">UHDTV</a>) <small>(2014–present)</small></td></tr><tr><th scope="row">Audio format</th><td><a href="/wiki/Dolby_Digital" title="Dolby Digital">Dolby Digital</a> 5.1</td></tr><tr><th scope="row">Original release</th><td>February 1, 2013<span style="display:none">&nbsp;(<span class="bday dtstart published updated">2013-02-01</span>)</span>&nbsp;– present</td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">Chronology</th></tr><tr><th scope="row">Related shows</th><td><i><a href="/wiki/House_of_Cards_(UK_TV_series)" title="House of Cards (UK TV series)">House of Cards</a></i></td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">External links</th></tr><tr><th scope="row">Website</th><td><span class="url"><a rel="nofollow" class="external text" href="http://www.netflix.com/houseofcards">www<wbr>.netflix<wbr>.com<wbr>/houseofcards</a></span></td></tr></tbody></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-container col-xs-12 col-md-6">
+                        <div class="card wikipedia-card ">
+                            <h5 class="card-header"><a href="#">House of Cards (U.S. TV series)</a></h5>
+                            <img class="card-img-top" src="//upload.wikimedia.org/wikipedia/en/thumb/3/3f/House_of_Cards_title_card.png/250px-House_of_Cards_title_card.png" alt="Card image cap">
+                            <div class="card-block">
+                                <p class="card-text">
+                                    <i><b>House of Cards</b></i> is an American <a href="/wiki/Political_drama" title="Political drama">political drama</a> <a href="/wiki/Web_television" title="Web television">web</a> <a href="/wiki/Television_series" class="mw-redirect" title="Television series">television series</a> created by <a href="/wiki/Beau_Willimon" title="Beau Willimon">Beau Willimon</a>. It is an adaptation of the <a href="/wiki/BBC" title="BBC">BBC</a>'s <a href="/wiki/House_of_Cards_(UK_TV_series)" title="House of Cards (UK TV series)">mini-series of the same name</a> and is based on the novel by <a href="/wiki/Michael_Dobbs" title="Michael Dobbs">Michael Dobbs</a>. The thirteen-episode first season premiered on February 1, 2013, on the <a href="/wiki/Streaming_media" title="Streaming media">streaming service</a> <a href="/wiki/Netflix" title="Netflix">Netflix</a>. Thirteen-episode seasons followed on February 14, 2014, February 27, 2015, March 4, 2016, and May 30, 2017. Willimon has stated that plans for the show's future are decided after each season.<sup id="cite_ref-2" class="reference"><a href="#cite_note-2">[2]</a></sup>
+                                </p>
+                            </div>
+                            <div class="card-block border-top">
+                                <p class="card-text">Next word is <i><b>Netflix</b></i> can be found at :</p>
+                                <div class="zoom-out">
+                                    <table><tbody><tr><th colspan="2" class="summary" style="text-align:center;font-size:125%;font-weight:bold;font-style: italic; background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">House of Cards</th></tr><tr><td colspan="2" style="text-align:center"><a href="/wiki/File:House_of_Cards_title_card.png" class="image"><img alt="House of Cards title card.png" src="//upload.wikimedia.org/wikipedia/en/thumb/3/3f/House_of_Cards_title_card.png/250px-House_of_Cards_title_card.png" width="250" height="125" srcset="//upload.wikimedia.org/wikipedia/en/thumb/3/3f/House_of_Cards_title_card.png/375px-House_of_Cards_title_card.png 1.5x, //upload.wikimedia.org/wikipedia/en/3/3f/House_of_Cards_title_card.png 2x" data-file-width="447" data-file-height="223"></a></td></tr><tr><th scope="row">Genre</th><td class="category"><a href="/wiki/Political_drama" title="Political drama">Political drama</a></td></tr><tr><th scope="row">Created by</th><td><a href="/wiki/Beau_Willimon" title="Beau Willimon">Beau Willimon</a></td></tr><tr><th scope="row">Based on</th><td><div class="plainlist"><ul><li><i>House of Cards</i><br>by <a href="/wiki/Michael_Dobbs" title="Michael Dobbs">Michael Dobbs</a></li><li><i><a href="/wiki/House_of_Cards_(UK_TV_series)" title="House of Cards (UK TV series)">House of Cards</a></i><br>by <a href="/wiki/Andrew_Davies_(writer)" title="Andrew Davies (writer)">Andrew Davies</a></li></ul></div></td></tr><tr><th scope="row">Starring</th><td class="attendee"><div class="plainlist"><ul><li><a href="/wiki/Kevin_Spacey" title="Kevin Spacey">Kevin Spacey</a></li><li><a href="/wiki/Robin_Wright" title="Robin Wright">Robin Wright</a></li><li><a href="/wiki/Kate_Mara" title="Kate Mara">Kate Mara</a></li><li><a href="/wiki/Corey_Stoll" title="Corey Stoll">Corey Stoll</a></li><li><a href="/wiki/Michael_Kelly_(American_actor)" title="Michael Kelly (American actor)">Michael Kelly</a></li><li><a href="/wiki/Sakina_Jaffrey" title="Sakina Jaffrey">Sakina Jaffrey</a></li><li><a href="/wiki/Kristen_Connolly" title="Kristen Connolly">Kristen Connolly</a></li><li><a href="/wiki/Sebastian_Arcelus" title="Sebastian Arcelus">Sebastian Arcelus</a></li><li><a href="/wiki/Michel_Gill" title="Michel Gill">Michel Gill</a></li><li><a href="/wiki/Nathan_Darrow" title="Nathan Darrow">Nathan Darrow</a></li><li><a href="/wiki/Rachel_Brosnahan" title="Rachel Brosnahan">Rachel Brosnahan</a></li><li><a href="/wiki/Constance_Zimmer" title="Constance Zimmer">Constance Zimmer</a></li><li><a href="/wiki/Mahershala_Ali" title="Mahershala Ali">Mahershala Ali</a></li><li><a href="/wiki/Elizabeth_Norment" title="Elizabeth Norment">Elizabeth Norment</a></li><li><a href="/wiki/Sandrine_Holt" title="Sandrine Holt">Sandrine Holt</a></li><li><a href="/wiki/Jayne_Atkinson" title="Jayne Atkinson">Jayne Atkinson</a></li><li><a href="/wiki/Molly_Parker" title="Molly Parker">Molly Parker</a></li><li><a href="/wiki/Gerald_McRaney" title="Gerald McRaney">Gerald McRaney</a></li><li><a href="/wiki/Jimmi_Simpson" title="Jimmi Simpson">Jimmi Simpson</a></li><li><a href="/wiki/Elizabeth_Marvel" title="Elizabeth Marvel">Elizabeth Marvel</a></li><li><a href="/wiki/Derek_Cecil" title="Derek Cecil">Derek Cecil</a></li><li><a href="/wiki/Mozhan_Marn%C3%B2" title="Mozhan Marnò">Mozhan Marnò</a></li><li><a href="/wiki/Paul_Sparks" title="Paul Sparks">Paul Sparks</a></li><li><a href="/wiki/Boris_McGiver" title="Boris McGiver">Boris McGiver</a></li><li><a href="/wiki/Neve_Campbell" title="Neve Campbell">Neve Campbell</a></li><li><a href="/wiki/Joel_Kinnaman" title="Joel Kinnaman">Joel Kinnaman</a></li><li><a href="/wiki/Campbell_Scott" title="Campbell Scott">Campbell Scott</a></li><li><a href="/wiki/Patricia_Clarkson" title="Patricia Clarkson">Patricia Clarkson</a></li></ul></div></td></tr><tr><th scope="row">Music by</th><td><a href="/wiki/Jeff_Beal" title="Jeff Beal">Jeff Beal</a></td></tr><tr><th scope="row">Country of origin</th><td>United States</td></tr><tr><th scope="row">Original <span class="nowrap">language(s)</span></th><td>English</td></tr><tr><th scope="row"><abbr title="Number">No.</abbr> of seasons</th><td>5</td></tr><tr><th scope="row"><abbr title="Number">No.</abbr> of episodes</th><td>65 <span class="nowrap">(<a href="/wiki/List_of_House_of_Cards_episodes" title="List of House of Cards episodes">list of episodes</a>)</span></td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">Production</th></tr><tr><th scope="row">Executive <span class="nowrap">producer(s)</span></th><td><div class="plainlist"><ul><li><a href="/wiki/David_Fincher" title="David Fincher">David Fincher</a></li><li>Kevin Spacey</li><li><a href="/wiki/Eric_Roth" title="Eric Roth">Eric Roth</a></li><li><a href="/wiki/Joshua_Donen" title="Joshua Donen">Joshua Donen</a></li><li><a href="/wiki/Dana_Brunetti" title="Dana Brunetti">Dana Brunetti</a></li><li>Andrew Davies</li><li>Michael Dobbs</li><li><a href="/wiki/John_Melfi" title="John Melfi">John Melfi</a></li><li>Beau Willimon</li><li><a href="/wiki/David_Manson_(producer)" title="David Manson (producer)">David Manson</a></li><li><a href="/wiki/John_David_Coles" title="John David Coles">John David Coles</a></li><li>Robin Wright</li></ul></div></td></tr><tr><th scope="row">Location(s)</th><td><a href="/wiki/Baltimore" title="Baltimore">Baltimore</a>, <a href="/wiki/Maryland" title="Maryland">Maryland</a><br><a href="/wiki/Joppa,_Maryland" title="Joppa, Maryland">Joppa, Maryland</a><br>(sound stage)</td></tr><tr><th scope="row">Cinematography</th><td><a href="/wiki/Eigil_Bryld" title="Eigil Bryld">Eigil Bryld</a><br>Tim Ives<br>Igor Martinovic</td></tr><tr><th scope="row">Running time</th><td>43–59 minutes</td></tr><tr><th scope="row">Production <span class="nowrap">company(s)</span></th><td>Media Rights Capital<br><a href="/wiki/Trigger_Street_Productions" title="Trigger Street Productions">Trigger Street Productions</a><br>Wade/Thomas Productions<br>Knight Takes King Productions<sup id="cite_ref-1" class="reference"><a href="#cite_note-1">[1]</a></sup></td></tr><tr><th scope="row">Distributor</th><td><a class="highlight" href="/wiki/Netflix" title="Netflix">Netflix</a> <small>(digital)</small><br><a href="/wiki/Sony_Pictures_Television" title="Sony Pictures Television">Sony Pictures Television</a> <small>(physical)</small></td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">Release</th></tr><tr><th scope="row">Original network</th><td>Netflix</td></tr><tr><th scope="row">Picture format</th><td><a href="/wiki/1080p" title="1080p">1080p</a> (<a href="/wiki/Univisium" title="Univisium">2:1</a> <a href="/wiki/High-definition_television" title="High-definition television">HDTV</a>) <small>(2013)</small><br><a href="/wiki/4K_resolution" title="4K resolution">4K</a> (2:1 <a href="/wiki/Ultra-high-definition_television" title="Ultra-high-definition television">UHDTV</a>) <small>(2014–present)</small></td></tr><tr><th scope="row">Audio format</th><td><a href="/wiki/Dolby_Digital" title="Dolby Digital">Dolby Digital</a> 5.1</td></tr><tr><th scope="row">Original release</th><td>February 1, 2013<span style="display:none">&nbsp;(<span class="bday dtstart published updated">2013-02-01</span>)</span>&nbsp;– present</td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">Chronology</th></tr><tr><th scope="row">Related shows</th><td><i><a href="/wiki/House_of_Cards_(UK_TV_series)" title="House of Cards (UK TV series)">House of Cards</a></i></td></tr><tr><th colspan="2" class="summary" style="text-align:center;background: #CCCCFF; padding: 0.25em 1em; line-height: 1.5em;">External links</th></tr><tr><th scope="row">Website</th><td><span class="url"><a rel="nofollow" class="external text" href="http://www.netflix.com/houseofcards">www<wbr>.netflix<wbr>.com<wbr>/houseofcards</a></span></td></tr></tbody></table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            if (!String.format) {
+              String.format = function(format) {
+                var args = Array.prototype.slice.call(arguments, 1);
+                return format.replace(/{(\d+)}/g, function(match, number) { 
+                  return typeof args[number] != 'undefined'
+                    ? args[number] 
+                    : match
+                  ;
+                });
+              };
+            }
+
+            function checkLinks(){
+                var sC = $("#startContainer");
+                var eC = $("#endContainer");
+                sC.find(".form-control-feedback").addClass("hidden-xs-up");
+                eC.find(".form-control-feedback").addClass("hidden-xs-up");
+
+                var wikiStart = document.getElementById("wikiStart").value;
+                var wikiEnd = document.getElementById("wikiEnd").value;
+                var timeOut = null;
+
+                var regex = /https:\/\/[a-z]{2}\.wikipedia\.org\/wiki\/.*/g;
+
+                var makeCall = (start, end) => {
+                    clearTimeout(timeOut);
+                    $.ajax("/crawl?start=" + start + "&end=" + end).done( data => {
+                        data.start = start;
+                        data.end = end;
+                        processCall(data, 0)
+                    })
+                }
+
+                var makeSubsequentCheckCall = (start, end, nthCall) => {
+                    if(nthCall > 19) return;
+                    $.ajax("/check_result?start=" + start + "&end=" + end).done( data => {
+                        data.start = start;
+                        data.end = end;
+                        processCall(data, nthCall + 1);
+                    })
+                }
+
+                var processCall = (data, nthCall) => {
+                    results = []
+                    if (data.status !== "SUCCESS"){
+                        if(data.start && data.end){
+                            timeOut = setTimeout(() => { makeSubsequentCheckCall(data.start , data.end, nthCall) }, 1000 * 15);
+                        }
+                        return;
+                    }
+
+                    data.result.map( result => {
+                        var rowStart =( result.index-1 )% 2 === 0 ? "<div class='card-deck'>" : "";
+                        var rowEnd = (result.index-1 )% 2 === 0 ? data.result.length == result.index ? '<div class="card wikipedia-card invisible"/></div>' : "" : "</div>"
+                       
+                        results[result.index-1] = String.format('{6}<div class="card wikipedia-card "><h5 class="card-header"><a target="_blank" href="{0}">{1}</a></h5><img class="card-img-top" src="{2}" alt="main image"><div class="card-block"><p class="card-text">{3}</p></div><div class="card-footer"><p class="card-text">Next word is <i><b>{4}</b></i> can be found at :</p><div class="zoom-out">{5}</div></div></div>{7}', 
+                            result.origin, 
+                            result.page_title, 
+                            result.thumbnail,
+                            result.summary,
+                            result.next_text,
+                            result.snippet,
+                            rowStart,
+                            rowEnd
+                            );
+                    });
+
+                    $("#wiki-result").html(results.join(""));
+                }
+
+                var getReq = str => {
+                    if (str.match(regex)) {
+                        keyword = str.match(/wiki\/.*/);
+                        str = str.substr(keyword.index+5)
+                    }
+                    return $.ajax("https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srnamespace=0&srlimit=1&origin=*&srsearch="+ str);
+                }
+
+                $.when(
+                    getReq(wikiStart), 
+                    getReq(wikiEnd)
+                ).then((start, end) => {
+                    var start = start[0];
+                    var end = end[0];
+
+                    if(start.error || start.query.search.length < 1){
+                        sC.addClass("has-danger");
+                        sC.find(".form-control-feedback")
+                            .html("Please provide appropriate English word")
+                            .removeClass("hidden-xs-up");
+                        return;
+                    } 
+
+                    if(end.error || end.query.search.length < 1){
+                        eC.addClass("has-danger");
+                        eC.find(".form-control-feedback")
+                            .html("Please provide appropriate English word")
+                            .removeClass("hidden-xs-up");
+                        return;
+                    }
+
+                    start = "https://en.wikipedia.org/wiki/" + start.query.search[0].title;
+                    end = "https://en.wikipedia.org/wiki/" + end.query.search[0].title;;
+
+                    makeCall(start, end);
+
+                });
+
+            }
+
+        </script>
+    </body>
+</html>

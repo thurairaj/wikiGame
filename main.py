@@ -1,18 +1,39 @@
 from WikiGameEngine import WikiGameEngine
-import SocketServer
+from WikiGameEngine import json
+from SocketServer import ThreadingMixIn
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+import urllib
 
-wk =  WikiGameEngine()
+memCache = {}
 
 class HTTPHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        global wk
+        global memCache
         (path, params) = self._parse_path()
         if path == '/crawl':
             self._set_header("text/json")
+            wk = WikiGameEngine(memCache)
             wk.set_param(params["start"], params["end"])
             result = wk.crawl()
-            self.wfile.write(result)
+
+
+        elif path == 'quick_check':
+            self._set_header("text/json")
+            if (params["start"], params["end"]) in memCache:
+                result = {"status" : "SUCCESS",  "result" : memCache[(params["start"], params["end"])]}
+            else:
+                result = {"status": "ERROR", "message" : "NO_CACHE"}
+            result = json.dumps(result)
+
+        elif path == 'ping':
+            result = {"status" : "SUCCESS"}
+            result = json.dumps(result)
+
+        else :
+            result = {"status" : "ERROR", "message" : "PATH_INVALID"}
+            result = json.dumps(result)
+
+        self.wfile.write(result)
 
 
     def _set_header(self, type="text/plain"):
@@ -21,6 +42,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def _parse_path(self):
+        self.path = urllib.unquote(self.path)
         query_index = self.path.find("?")
         param_dict = {}
         if query_index < 0:
@@ -35,12 +57,15 @@ class HTTPHandler(BaseHTTPRequestHandler):
 
         return (actual_path, param_dict)
 
-def main():
-    print "start"
-    server_address = ('', 8090)
-    httpd = HTTPServer(server_address, HTTPHandler)
-    httpd.serve_forever()
+class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
+    '''Threaded'''
 
+def main():
+    print "start process"
+    server = ThreadedHTTPServer(('192.168.0.12', 8080), HTTPHandler)
+    print "start server"
+    server.serve_forever()
+    print "server dead"
 
 
 if __name__ == "__main__":

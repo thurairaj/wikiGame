@@ -1,0 +1,28 @@
+{
+  "name": "wikiGame",
+  "version": "0.0.1",
+  "description": "Simple wiki game to check number hops",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thurairaj92/wikiGame"
+  },
+  "keywords": [
+    "trip",
+    "planner"
+  ],
+  "author": "Thurairaj Letchumanan",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/thurairaj92/wikiGame/issues"
+  },
+  "homepage": "https://github.com/thurairaj92/wikiGame#readme",
+  "dependencies": {
+    "express": "^4.13.4",
+    "jsdom": "^11.0.0",
+    "request-promise": "^4.2.1"
+  }
+}
