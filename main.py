@@ -10,14 +10,16 @@ class HTTPHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         global memCache
         (path, params) = self._parse_path()
-        if path == '/crawl':
-            self._set_header("text/json")
+        print "ok", path, params
+        self._set_header("text/json")
+	if path == '/crawl':
+            #self._set_header("text/json")
             wk = WikiGameEngine(memCache)
             wk.set_param(params["start"], params["end"])
             result = wk.crawl()
 
 
-        elif path == 'quick_check':
+        elif path == '/quick_check':
             self._set_header("text/json")
             if (params["start"], params["end"]) in memCache:
                 result = {"status" : "SUCCESS",  "result" : memCache[(params["start"], params["end"])]}
@@ -25,7 +27,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
                 result = {"status": "ERROR", "message" : "NO_CACHE"}
             result = json.dumps(result)
 
-        elif path == 'ping':
+        elif path == '/ping':
             result = {"status" : "SUCCESS"}
             result = json.dumps(result)
 
@@ -62,7 +64,7 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 
 def main():
     print "start process"
-    server = ThreadedHTTPServer(('192.168.0.12', 8080), HTTPHandler)
+    server = ThreadedHTTPServer(('ec2-13-58-179-9.us-east-2.compute.amazonaws.com', 8080), HTTPHandler)
     print "start server"
     server.serve_forever()
     print "server dead"

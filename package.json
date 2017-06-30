@@ -22,6 +22,7 @@
   "homepage": "https://github.com/thurairaj92/wikiGame#readme",
   "dependencies": {
     "express": "^4.13.4",
+    "forever": "^0.15.3",
     "jsdom": "^11.0.0",
     "request-promise": "^4.2.1"
   }
