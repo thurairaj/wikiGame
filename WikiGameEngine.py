@@ -11,7 +11,6 @@ class WikiGameEngine:
         self.wiki_link = "https://en.wikipedia.org"
         self.maxhop = maxhop
         self.cache = memCache
-        print "memCache", memCache
 
     def set_param(self, start, end):
         self.start = start.replace(" ", "_")
@@ -43,7 +42,6 @@ class WikiGameEngine:
             (prev, hop, current) = self.pool.pop(0)
 
             if prev_hop < hop:
-                print prev_hop, hop
                 if result_from_cache:
                     return self.backtrack_hop(self.end, hop + self.retrive_result(result_from_cache))
                 if hop > self.maxhop:
@@ -84,13 +82,13 @@ class WikiGameEngine:
             result.insert(0, {"index" : hop, "origin" : end, "next_text": text, "next_link" : next_link})
             hop -= 1
 
-        print json.dumps(data)
         length_of_result = len(result)
         for i in range(0, length_of_result):
             cur = result[i]
             self.cache[(self.start, cur["next_link"])] = result[0:i+1]
 
         data["status"] = "SUCCESS"
+        print "SUCCESS"
         return json.dumps(data)
 
     def retrive_result(self, key):

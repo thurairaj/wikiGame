@@ -4,9 +4,8 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const pythonHost = "http://ec2-13-58-179-9.us-east-2.compute.amazonaws.com:8080";
 
+
 var cache = {}
-
-
 var app = express();
 app.use(express.static('public'));
 
@@ -15,36 +14,60 @@ app.get('/', function (req, res) {
 })
 
 app.get('/check_result', (req,res) => {
+	console.log("GET for check_result");
 	var start = req.query.start;
 	var end = req.query.end;
-	var regex = /https:\/\/[a-z]{2}\.wikipedia\.org\/wiki\/.*/g;
 	var response = {}
+	var pattern = new RegExp(" ", "g")
+	start =start.replace("http://", "https://").replace(pattern, "_");
+	end = end.replace("http://", "https://").replace(pattern, "_");
 
-	if(!(start && end)){
-		response.status = "ERROR";
-		response.message = "Please provide both start and end url"
-		res.end(JSON.stringify(response));
-		return;
-	}
-
-	start.replace("http://", "https://");
-	end.replace("http://", "https://");
-
-	if(!(start.match(regex) && end.match(regex))){
-		response.status = "ERROR";
-		response.message = "Please provide both start and end wikipedia url"
-		res.end(JSON.stringify(response));
+	if (! (_validation_wikilinks(start, end, res))){
+		//validation failed
+		console.log("GET failed validation check_result");
 		return;
 	}
 
 	var cache_result = cache[[start, end]] ;
-	if(cache_result && cache_result.status == "SUCCESS" ){
+	//found the answer in cache
+	if(cache_result && cache_result.status === "SUCCESS" ){
+		console.log("GET check_result found the result from cache");
 		return _wiki_response(cache_result, res);
-	}else if(cache_result && cache_result.status == "PENDING" ){
-		res.set('Content-Type', 'application/json');
-		res.end(JSON.stringify(cache_result));
-		return
+	//found previous req
+	}else if(cache_result && cache_result.status === "PENDING" ){
+		var callPython = pythonHost + "/check_result?start=" + start + "&end=" + end;
+		console.log("GET check_result try checking engine if it got answer in its cache");
+		rp({
+			url : callPython, 
+			method : "GET",
+			simple : false
+		})
+		.then(value => {
+			console.log("GET check_result got reply from Engine");
+			value = JSON.parse(value);
+			if(value.status !== "SUCCESS"){
+				console.log("GET check_result Engine is still processing");
+				res.set('Content-Type', 'application/json');
+				res.end(JSON.stringify(cache_result)); //is still pending for result
+				return
+			}
+
+			console.log("Got check_result result for ", start, end);
+			//in case we need in future
+			cache[[start, end]] = value;
+			setTimeout(() => {
+				delete cache[[start, end]]
+			}, 60000 * 10);
+			//unlike crawl, send the response right away
+			_wiki_response(cache_result, res);
+		})
+		.catch(err => {
+			console.log("Got check_result  something went sideway ", err);
+			delete cache[[start, end]]
+		})
+	//shouldn't have done this call you dumbass
 	}else{
+		console.log("GET check_result ERROR, ignore it");
 		res.set('Content-Type', 'application/json');
 		res.end(JSON.stringify({status : "ERROR", result : []}));
 		return
@@ -54,23 +77,13 @@ app.get('/check_result', (req,res) => {
 app.get('/crawl', (req,res) => {
 	var start = req.query.start;
 	var end = req.query.end;
-	var regex = /https:\/\/[a-z]{2}\.wikipedia\.org\/wiki\/.*/g;
 	var response = {}
+	var pattern = new RegExp(" ", "g")
+	start =start.replace("http://", "https://").replace(pattern, "_");
+	end = end.replace("http://", "https://").replace(pattern, "_");
 
-	if(!(start && end)){
-		response.status = "ERROR";
-		response.message = "Please provide both start and end url"
-		res.end(JSON.stringify(response));
-		return;
-	}
-
-	start.replace("http://", "https://");
-	end.replace("http://", "https://");
-
-	if(!(start.match(regex) && end.match(regex))){
-		response.status = "ERROR";
-		response.message = "Please provide both start and end wikipedia url"
-		res.end(JSON.stringify(response));
+	if (! (_validation_wikilinks(start, end, res))){
+		//validation failed
 		return;
 	}
 
@@ -83,6 +96,7 @@ app.get('/crawl', (req,res) => {
 	cache[[start, end]] = {result:[], status: "PENDING"}
 	var callPython = pythonHost + "/crawl?start=" + start + "&end=" + end;
 
+	//send crawling initialization for engine
 	rp({
 		url : callPython, 
 		method : "GET",
@@ -90,23 +104,25 @@ app.get('/crawl', (req,res) => {
 	})
 	.then(value => {
 		value = JSON.parse(value);
-		promiseList = [];
-		console.log("update cache");
-		cache[[start, end]] = value;
-		setTimeout(() => {
-			delete cache[[start, end]]
-		}, 60000 * 10);
+		if (value.status === "SUCCESS"){
+			cache[[start, end]] = value;
+			setTimeout(() => {
+				delete cache[[start, end]]
+			}, 60000 * 10);
+		}	
 	})
-	.catch(() => {
+	.catch(err => {
+		console.log(err);
 		delete cache[[start, end]]
-	})
+	});
 
 	res.set('Content-Type', 'application/json');
-	res.end(JSON.stringify({result : "PENDING"}));
+	res.end(JSON.stringify({status : "PENDING", result : []}));
 	return
 	
 })
 
+//just for pure redirection (we might want to consider change this)
 app.get('/wiki/:id', (req, res) => {
 	console.log(req.params);
 	res.redirect('https://en.wikipedia.org/wiki/' + req.params.id);
@@ -156,13 +172,36 @@ var _wiki_response = (value, res) => {
 			current_request.thumbnail = imgUrl;
 			current_request.snippet = para.outerHTML;
 			current_request.page_title = doc.title.replace(" - Wikipedia", "");
-			current_request.summary = doc.querySelector(".mw-parser-output p").innerHTML;
+			current_request.summary = doc.querySelector(".mw-parser-output > p").innerHTML;
 		})
 
 		res.set('Content-Type', 'application/json');
 		res.end(JSON.stringify(value));
 		return
 	})
+}
+
+var _validation_wikilinks = (start, end, res) => {
+	var regex = /https:\/\/[a-z]{2}\.wikipedia\.org\/wiki\/.*/g;
+	var response = {}
+
+	if(!(start && end)){
+		response.status = "ERROR";
+		response.message = "Please provide both start and end url"
+		res.end(JSON.stringify(response));
+		return false;
+	}
+
+	
+
+	if(!(start.match(regex) && end.match(regex))){
+		response.status = "ERROR";
+		response.message = "Please provide both start and end wikipedia url"
+		res.end(JSON.stringify(response));
+		return false;
+	}
+
+	return true;
 }
 
 

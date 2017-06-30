@@ -5,37 +5,52 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import urllib
 
 memCache = {}
+request_pool = {}
 
 class HTTPHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         global memCache
         (path, params) = self._parse_path()
-        print "ok", path, params
-        self._set_header("text/json")
-	if path == '/crawl':
-            #self._set_header("text/json")
+        print self.path
+        if path == '/crawl':
+            self._set_header("text/json")
             wk = WikiGameEngine(memCache)
             wk.set_param(params["start"], params["end"])
-            result = wk.crawl()
 
+            if (params["start"], params["end"]) in memCache :
+                result = {"status" : "SUCCESS", "result" : memCache[params["start"], params["end"]]}
+            elif (params["start"], params["end"]) in request_pool:
+                result = {"status": "PENDING", "message": "REQUEST_EXIST"}
+            else:
+                result = {"status" : "PENDING", "message" : "REQUEST_SUBMITTED"}
+                request_pool[(params["start"], params["end"])] = 1
 
-        elif path == '/quick_check':
+            result = json.dumps(result)
+            self.wfile.write(result)
+            wk.crawl()
+            if (params["start"], params["end"]) in request_pool:
+                del request_pool[(params["start"], params["end"])]
+
+        elif path == '/check_result':
+            print memCache
             self._set_header("text/json")
             if (params["start"], params["end"]) in memCache:
                 result = {"status" : "SUCCESS",  "result" : memCache[(params["start"], params["end"])]}
             else:
-                result = {"status": "ERROR", "message" : "NO_CACHE"}
+                result = {"status": "PENDING", "message" : "NO_CACHE"}
             result = json.dumps(result)
+            self.wfile.write(result)
 
         elif path == '/ping':
             result = {"status" : "SUCCESS"}
             result = json.dumps(result)
+            self.wfile.write(result)
 
         else :
             result = {"status" : "ERROR", "message" : "PATH_INVALID"}
             result = json.dumps(result)
+            self.wfile.write(result)
 
-        self.wfile.write(result)
 
 
     def _set_header(self, type="text/plain"):
